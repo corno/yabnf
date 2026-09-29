@@ -1,0 +1,108 @@
+import * as p_ from 'pareto-core/transformer';
+// schemas
+import * as s_source from "../schema.js";
+import * as s_target from "astn-core/modules/serialization/schemas/sealed_target/schema";
+// serializer dependencies
+import * as ser_primitives from "liana-core/modules/serialization/schemas/primitives/serializers";
+// implementations
+export const Diagram = ($) => ['list', p_.from.list($).map(($) => Component($))];
+export const Root = ($) => ['state', p_.from.state($).decide(($) => {
+        switch ($[0]) {
+            case 'one diagram': return p_.option($, ($) => ({
+                'option': 'one diagram',
+                'value': Diagram($),
+            }));
+            case 'multiple diagrams': return p_.option($, ($) => ({
+                'option': 'multiple diagrams',
+                'value': ['dictionary', p_.from.dictionary($).map(($, id) => Diagram($))],
+            }));
+            default: return p_.exhaustive($[0]);
+        }
+    })];
+export const Component = ($) => ['state', p_.from.state($).decide(($) => {
+        switch ($[0]) {
+            case 'terminal': return p_.option($, ($) => ({
+                'option': 'terminal',
+                'value': ['text', {
+                        'delimiter': ['quote', null],
+                        'value': $,
+                    }],
+            }));
+            case 'non terminal': return p_.option($, ($) => ({
+                'option': 'non terminal',
+                'value': ['text', {
+                        'delimiter': ['quote', null],
+                        'value': $,
+                    }],
+            }));
+            case 'comment': return p_.option($, ($) => ({
+                'option': 'comment',
+                'value': ['text', {
+                        'delimiter': ['quote', null],
+                        'value': $,
+                    }],
+            }));
+            case 'skip': return p_.option($, ($) => ({
+                'option': 'skip',
+                'value': ['nothing', null],
+            }));
+            case 'sequence': return p_.option($, ($) => ({
+                'option': 'sequence',
+                'value': ['list', p_.from.list($).map(($) => Component($))],
+            }));
+            case 'choice': return p_.option($, ($) => ({
+                'option': 'choice',
+                'value': ['group', ['verbose', p_.literal.dictionary({
+                            "options": p_.change_context($['options'], ($) => ['list', p_.from.list($).map(($) => Component($))]),
+                        })]],
+            }));
+            case 'optional': return p_.option($, ($) => ({
+                'option': 'optional',
+                'value': ['group', ['verbose', p_.literal.dictionary({
+                            "item": p_.change_context($['item'], ($) => Component($)),
+                            "skip": p_.change_context($['skip'], ($) => ['state', p_.from.state($).decide(($) => {
+                                    switch ($[0]) {
+                                        case 'normal': return p_.option($, ($) => ({
+                                            'option': 'normal',
+                                            'value': ['nothing', null],
+                                        }));
+                                        case 'skip in line': return p_.option($, ($) => ({
+                                            'option': 'skip in line',
+                                            'value': ['nothing', null],
+                                        }));
+                                        default: return p_.exhaustive($[0]);
+                                    }
+                                })]),
+                        })]],
+            }));
+            case 'one or more': return p_.option($, ($) => ({
+                'option': 'one or more',
+                'value': ['group', ['verbose', p_.literal.dictionary({
+                            "item": p_.change_context($['item'], ($) => Component($)),
+                            "repeat": p_.change_context($['repeat'], ($) => ['optional', p_.from.optional($).decide(($) => ['set', Component($)], () => ['not set', null])]),
+                        })]],
+            }));
+            case 'zero or more': return p_.option($, ($) => ({
+                'option': 'zero or more',
+                'value': ['group', ['verbose', p_.literal.dictionary({
+                            "item": p_.change_context($['item'], ($) => Component($)),
+                            "repeat": p_.change_context($['repeat'], ($) => ['optional', p_.from.optional($).decide(($) => ['set', Component($)], () => ['not set', null])]),
+                            "skip": p_.change_context($['skip'], ($) => ['state', p_.from.state($).decide(($) => {
+                                    switch ($[0]) {
+                                        case 'normal': return p_.option($, ($) => ({
+                                            'option': 'normal',
+                                            'value': ['nothing', null],
+                                        }));
+                                        case 'skip in line': return p_.option($, ($) => ({
+                                            'option': 'skip in line',
+                                            'value': ['nothing', null],
+                                        }));
+                                        default: return p_.exhaustive($[0]);
+                                    }
+                                })]),
+                        })]],
+            }));
+            default: return p_.exhaustive($[0]);
+        }
+    })];
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiYXN0bl9zZWFsZWRfdGFyZ2V0LmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vLi4vLi4vLi4vc3JjL21vZHVsZXMvdGFyZ2V0LmxpYW5hLmdlbmVyYXRlZC9zY2hlbWFzL3Jlc29sdmVkL3RyYW5zZm9ybWVycy9hc3RuX3NlYWxlZF90YXJnZXQudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsT0FBTyxLQUFLLEVBQUUsTUFBTSx5QkFBeUIsQ0FBQTtBQUU3QyxVQUFVO0FBQ1YsT0FBTyxLQUFLLFFBQVEsTUFBTSxjQUFjLENBQUE7QUFDeEMsT0FBTyxLQUFLLFFBQVEsTUFBTSw4REFBOEQsQ0FBQTtBQUV4RiwwQkFBMEI7QUFDMUIsT0FBTyxLQUFLLGNBQWMsTUFBTSxpRUFBaUUsQ0FBQTtBQW9Cakcsa0JBQWtCO0FBRWxCLE1BQU0sQ0FBQyxNQUFNLE9BQU8sR0FBeUIsQ0FDekMsQ0FBQyxFQUNILEVBQUUsQ0FBQyxDQUFDLE1BQU0sRUFBRSxFQUFFLENBQUMsSUFBSSxDQUFDLElBQUksQ0FBQyxDQUFDLENBQUMsQ0FBQyxHQUFHLENBQzdCLENBQ0ksQ0FBQyxFQUNILEVBQUUsQ0FBQyxTQUFTLENBQ1YsQ0FBQyxDQUNKLENBQ0osQ0FBQyxDQUFBO0FBRUYsTUFBTSxDQUFDLE1BQU0sSUFBSSxHQUFzQixDQUNuQyxDQUFDLEVBQ0gsRUFBRSxDQUFDLENBQUMsT0FBTyxFQUFFLEVBQUUsQ0FBQyxJQUFJLENBQUMsS0FBSyxDQUFDLENBQUMsQ0FBQyxDQUFDLE1BQU0sQ0FDbEMsQ0FDSSxDQUFDLEVBQ21CLEVBQUU7UUFDdEIsUUFBUSxDQUFDLENBQUMsQ0FBQyxDQUFDLEVBQUUsQ0FBQztZQUNYLEtBQUssYUFBYSxDQUFDLENBQUMsT0FBTyxFQUFFLENBQUMsTUFBTSxDQUFDLENBQUMsRUFBRSxDQUNwQyxDQUFDLEVBQ0gsRUFBRSxDQUFDLENBQUM7Z0JBQ0YsUUFBUSxFQUFFLGFBQWE7Z0JBQ3ZCLE9BQU8sRUFBRSxPQUFP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

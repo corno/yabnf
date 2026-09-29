@@ -1,0 +1,4 @@
+import * as p_ from 'pareto-core/schema';
+// exported root types
+export {};
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoic2NoZW1hLmpzIiwic291cmNlUm9vdCI6IiIsInNvdXJjZXMiOlsiLi4vLi4vLi4vLi4vLi4vc3JjL21vZHVsZXMvc291cmNlLmxpYW5hLmdlbmVyYXRlZC9zY2hlbWFzL3VucmVzb2x2ZWQvc2NoZW1hLnRzIl0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiJBQUFBLE9BQU8sS0FBSyxFQUFFLE1BQU0sb0JBQW9CLENBQUE7QUF5SHhDLHNCQUFzQjtBQUN0QixPQUFPLEVBR04sQ0FBQSJ9

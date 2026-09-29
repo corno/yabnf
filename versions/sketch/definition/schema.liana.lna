@@ -1,0 +1,46 @@
+(
+    `schema`: | `schema` (
+        `schema imports`: {}
+        `resolver imports`: {}
+        `globals`: (
+            `complexity`: | `unconstrained` ~
+            `text types`: {
+                'pseudo-reference': < | `single line` ~ | `no` ~ >
+            }
+            `simple types`: {
+                'boolean': < | `boolean` ~ >
+            }
+        )
+        `modules`: {
+            'Root': < | `group` {
+                'terminals': < _ | `dictionary` < | `nothing` ~ > >
+                'keywords': < _ | `dictionary` < | `text` | `global` 'pseudo-reference' > >
+                'nonterminals': < _ | `dictionary` < | `component` < | `internal acyclic` 'Expression' _ > > >
+            } >
+            'Expression': < | `state` < {
+                'alternation': < _ _ | `group` {
+                    'alternatives': < _ | `dictionary` < | `component` < | `internal` 'Expression' _ > > >
+                } >
+                'keyword': < _ _ | `text` | `global` 'pseudo-reference' >
+                'nonterminal': < _ _ | `text` | `global` 'pseudo-reference' >
+                'optional': < _ _ | `component` < | `internal` 'Expression' _ > >
+                'repetition': < _ _ | `group` {
+                    'item': < _ | `component` < | `internal` 'Expression' _ > >
+                    'separation': < _ | `optional` | `group` {
+                        'separator': < _ | `text` | `global` 'pseudo-reference' >
+                        'trailing separator allowed': < _ | `simple` | `global` 'boolean' >
+                    } >
+                } >
+                'sequence': < _ _ | `group` {
+                    'elements': < _ | `dictionary` < | `component` < | `internal` 'Expression' _ > > >
+                } >
+                'terminal': < _ _ | `text` | `global` 'pseudo-reference' >
+            } _ > >
+        }
+        `complexity`: | `unconstrained` ~
+    )
+    `schema path`: [ ]
+    `complexity`: | `unconstrained` (
+        `module`: "Root"
+    )
+)
