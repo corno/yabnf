@@ -1,0 +1,4 @@
+/versions/*/transformers/*/versions/*/coverage-html/
+/versions/*/transformers/*/versions/*/node_modules/
+/coverage-summary.html
+/versions/*/transformers/*/versions/*/test_results/actual/

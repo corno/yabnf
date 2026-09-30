@@ -1,0 +1,26 @@
+(
+    `terminals`: {
+        'foo': ~
+    }
+    `keywords`: {
+        'bar': "foo"
+    }
+    `nonterminals`: {
+        'baz': | `sequence` (
+            `elements`: {
+                'a': | `alternation` (
+                    `alternatives`: {
+                        'first': | `terminal` "foo"
+                    }
+                )
+                'b': | `keyword` "bar"
+                'c': | `nonterminal` "baz"
+                // 'd': | `optional` | `terminal` "foo"
+                'e': | `repetition` (
+                    `item`: | `terminal` "foo"
+                    `separation`: _
+                )
+            }
+        )
+    }
+)

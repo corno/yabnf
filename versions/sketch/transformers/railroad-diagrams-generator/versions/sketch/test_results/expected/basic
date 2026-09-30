@@ -1,0 +1,12 @@
+| `multiple diagrams` {
+    'baz': [ | `sequence` [ | `sequence` [ | `comment` "a" | `choice` (
+        `options`: [ | `sequence` [ | `comment` "|first" | `terminal` "foo" ] ]
+    ) ] | `sequence` [ | `comment` "b" | `terminal` "bar" ] | `sequence` [ | `comment` "c" | `non terminal` "baz" ] | `sequence` [ | `comment` "d" | `optional` (
+        `item`: | `terminal` "foo"
+        `skip`: | `normal` ~
+    ) ] | `sequence` [ | `comment` "e" | `zero or more` (
+        `item`: | `terminal` "foo"
+        `repeat`: _
+        `skip`: | `normal` ~
+    ) ] ] ]
+}
