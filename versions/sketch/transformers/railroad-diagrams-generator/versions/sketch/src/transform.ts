@@ -54,7 +54,7 @@ export const Expression: declarations.Expression = ($) => p_.from.state($).decid
                 ])]
             )])
             case 'terminal': return p_.option($, ($) => ['terminal', $])
-            default: return p_.exhaustive($[0])
+            // default: return p_.exhaustive($[0])
         }
     }
 )

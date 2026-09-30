@@ -15,7 +15,7 @@
                 )
                 'b': | `keyword` "bar"
                 'c': | `nonterminal` "baz"
-                // 'd': | `optional` | `terminal` "foo"
+                'd': | `optional` | `terminal` "foo"
                 'e': | `repetition` (
                     `item`: | `terminal` "foo"
                     `separation`: _

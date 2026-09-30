@@ -1,5 +1,5 @@
-/versions/*/transformers/*/versions/*/coverage-html/
-/versions/*/transformers/*/versions/*/node_modules/
-/versions/*/transformers/*/versions/*/dist/
 /coverage-summary.html
+/versions/*/transformers/*/versions/*/coverage-html/
+/versions/*/transformers/*/versions/*/dist/
+/versions/*/transformers/*/versions/*/node_modules/
 /versions/*/transformers/*/versions/*/test_results/actual/
