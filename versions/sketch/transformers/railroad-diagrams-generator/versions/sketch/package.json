@@ -1,9 +1,10 @@
 {
-  "name": "@pareto-transformer/yabnf.sketch-to-railroad-diagrams-generator.sketch",
+  "name": "@pareto-transformer/yabnf.sketch_to_railroad-diagrams-generator.sketch",
+  "version": "0.1.0",
   "type": "module",
   "main": "dist/index.js",
   "bin": {
-    "yabnf.sketch-to-railroad-diagrams-generator.sketch": "dist/index.js"
+    "yabnf.sketch_to_railroad-diagrams-generator.sketch": "dist/index.js"
   },
   "dependencies": {
     "liana-core": "^0.1.60",
